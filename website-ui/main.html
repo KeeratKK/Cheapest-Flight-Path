@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
+
+    <title>SkySaver</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="airplane-container">
+                <img class="airplane-img" src="images/plane-logo.png" alt="">
+            </div>
+            <div class="title-container">SkySaver</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="map-path-display">
+            <div id="mapbox" style="width: 700px; height: 500px"></div>
+        </div>
+        <div class="menu">
+            <div class="menu-input">
+                <div class="location-input">
+                    <input type="text" placeholder="Origin" class="origin-searchbar">
+                    <input type="text" placeholder="Destination" class="destination-searchbar">
+                </div>
+                <div class="years-input">
+                    <div class="years-text-container">
+                        <p class="year-text">Select a range of years.</p>
+                    </div>
+                    <div class="years-dropdown-container">
+                        <select class="year-dropdown">
+                            <option value="-1"></option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                        <div class="year-rectangle"></div>
+                        <select class="year-dropdown">
+                            <option value="-1"></option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="algorithm-input">
+
+                </div>
+                <div class="calculate-input">
+                    <button class="calculate-input"></button>
+                </div>
+            </div>
+            <div class="menu-output">
+                <div class="flight-info-output">
+
+                </div>
+                <div class="time-output">
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script defer>
+        async function getCoords(cityName) {
+            const cityURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${cityName}.json?access_token=pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA`;
+            let coordinates;
+
+            try {
+                const response = await fetch(cityURL);
+                const data = await response.json();
+                coordinates =  data.features[0].geometry.coordinates;
+            }
+            catch (error) {
+                console.error('Error: ', error);
+                coordinates = null;
+            }
+
+            /*
+            fetch(cityURL)
+                .then(response => response.json())
+                .then(data => {
+                    coordinates = data.features[0].geometry.coordinates;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                    coordinates = null;
+                })
+             */
+
+            return coordinates;
+        }
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA';
+        let mapbox = new mapboxgl.Map({
+            container: 'mapbox',
+            style: 'mapbox://styles/adamyc/clv2yh9ic01sl01p6525f1yvk',
+            center: [-97.327, 38.181],
+            zoom: 3.25
+        })
+        async function drawLine(mapObj, origin, destination) {
+            const originCoords = await getCoords(origin);
+            const destinationCoords = await getCoords(destination);
+            mapObj.on('load', function() {
+                mapObj.addSource('line', {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'LineString',
+                            coordinates: [originCoords, destinationCoords]
+                        }
+                    }
+                });
+
+                mapObj.addLayer({
+                    id: 'line',
+                    type: 'line',
+                    source: 'line',
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    paint: {
+                        'line-color': '#E5DCEB',
+                        'line-width': 20
+                    }
+                });
+            });
+        }
+
+        mapbox.on('load', function() {
+            drawLine(mapbox, 'Los_Angeles', 'New_York_City');
+        });
+    </script>
+</body>
+</html>

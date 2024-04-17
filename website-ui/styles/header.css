@@ -1,0 +1,46 @@
+.header {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: 65px;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: rgb(70, 89, 125);
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+
+    z-index: 200;
+}
+
+.logo-container {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(70, 89, 125);
+    margin-left: 10px;
+}
+
+.airplane-container {
+    width: 40px;
+    height: 40px;
+}
+
+.airplane-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.title-container {
+    font-family: VT323, Arial;
+    font-size: 40px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+}
+
