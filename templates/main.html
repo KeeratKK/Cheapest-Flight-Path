@@ -5,8 +5,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
@@ -17,7 +17,7 @@
     <header class="header">
         <div class="logo-container">
             <div class="airplane-container">
-                <img class="airplane-img" src="images/plane-logo.png" alt="">
+                <img class="airplane-img" src="{{ url_for('static', filename='images/plane-logo.png') }}" alt="">
             </div>
             <div class="title-container">SkySaver</div>
         </div>
