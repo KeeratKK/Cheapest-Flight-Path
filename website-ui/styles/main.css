@@ -1,0 +1,91 @@
+body {
+    font-family: Arial;
+    background-color: rgb(31, 47, 78);
+    padding-top: 66px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 10px;
+}
+
+.map-path-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 500px;
+    /*set a max width and min width with the @ stuff*/
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-img {
+    width: 900px;
+}
+
+@media (max-width: 1200px) {
+    .map-img {
+        width: 700px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .map-img {
+        width: 500px;
+    }
+}
+
+@media (max-width: 800px) {
+    .map-img {
+        width: 300px;
+    }
+}
+
+.menu-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location-input,
+.years-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.origin-searchbar,
+.destination-searchbar {
+    width: 250px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: white;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.origin-searchbar:focus,
+.destination-searchbar:focus {
+    background-color: lightskyblue;
+    outline: none;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
