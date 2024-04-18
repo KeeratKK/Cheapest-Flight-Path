@@ -60,18 +60,36 @@
                     </div>
                 </div>
                 <div class="algorithm-input">
-
+                    <div class="algorithm-text-container">
+                        <p class="algorithm-text">Select an Algorithm</p>
+                    </div>
+                    <div class="algorithm-dropdown-container">
+                        <select class="algorithm-dropdown">
+                            <option value="-1"></option>
+                            <option value="dijkstra">Dijkstra's</option>
+                            <option value="bellmanford">Bellman Ford's</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="calculate-input">
-                    <button class="calculate-input"></button>
+                    <button class="calculate-input">Calculate!</button>
                 </div>
             </div>
             <div class="menu-output">
                 <div class="flight-info-output">
-
+                    <ul class="flight-list">
+                        <!--
+                            This is meant to be a scrollable list such that there can be any number of flights to be
+                            displayed. Intend to do this with JS returning list items. CSS will be written to limit the
+                            size of the flight-list so that it stays consistent with the page size.
+                        -->
+                    </ul>
                 </div>
                 <div class="time-output">
-
+                    4.3 s
+                </div>
+                <div class="cost-output">
+                    $43.43
                 </div>
             </div>
         </div>

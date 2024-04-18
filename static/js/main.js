@@ -1,5 +1,6 @@
 // The getCoords() function takes in the parameter of a city name. This city name is manipulated with the MapBox
 // API, and generates a URL from which to get city coordinates, in [longitude, latitude].
+/*
 async function getCoords(cityName) {
     // Find the webpage correlated to the city name given.
     const cityURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${cityName}.json?access_token=pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA`;
@@ -80,3 +81,4 @@ mapbox.on('load', () => {
 
 // Ideally, add more features with MapBox API such as hovering over lines and cities to get information about
 // flight data, city names, and better UX (i.e. hovering changes the thickness of a line).
+ */
