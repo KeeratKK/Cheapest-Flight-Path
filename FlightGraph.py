@@ -1,5 +1,4 @@
 from queue import PriorityQueue
-from queue import Queue
 import math
 
 class FlightGraph:
@@ -35,6 +34,12 @@ class FlightGraph:
         return False
 
     def dijkstras(self, source, destination):
+
+        allEdges = []
+
+        if source not in self.adj:
+            return None, 1000000000
+
         pq = PriorityQueue()
 
         pq.put((0, source))
@@ -68,6 +73,8 @@ class FlightGraph:
                     self.distances[neighborName] = self.distances[shortestCity] + flightCost
                     self.predecessor[neighborName] = shortestCity
 
+                    allEdges.append((shortestCity, neighborName))
+
                     pq.put((self.distances[neighborName], neighborName)) 
             
         path = []
@@ -79,9 +86,12 @@ class FlightGraph:
         path.append(source)
         path.reverse()
 
-        return path, self.distances[destination]
+        return path, self.distances[destination], allEdges
 
     def bellmanFord(self, source, destination):
+
+        if source not in self.adj:
+            return None, 1000000000
 
         self.distances[source] = 0
         updates = False
