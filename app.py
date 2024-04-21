@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 # We need graphs for each year 
 graphs = [None, None, None, None, None]
+coords = {}
 
 @app.before_request
 def initialize_graph():
@@ -31,6 +32,18 @@ def initialize_graph():
 
         # Add the flight to the graph of the corresponding year
         graphs[year - 2019].addFlight(flightDf['city1'][index], flightDf['city2'][index], flightDf['fare'][index])
+    
+    global coords
+
+    cityCoordsDf = pd.read_csv('data/City_Coordinates.csv')
+
+    for index, row in cityCoordsDf.iterrows():
+
+        fullCityName = row[0] + ',' + row[1]
+        
+        coords[fullCityName] = [row[2], row[3]]
+    
+    coords[cityCoordsDf.columns[0] + ',' + cityCoordsDf.columns[1]] = [cityCoordsDf.columns[2], cityCoordsDf.columns[3]]
 
 @app.route('/') 
 def index():
@@ -68,6 +81,20 @@ def get_data():
             allEdges = curEdges
 
     return jsonify({'cost': lowestCost,'bestPath': bestPath, 'bestYear': bestYear, 'allEdges': allEdges})
+
+@app.route('/get_coords', methods=['POST'])
+def get_coords():
+
+    path = request.get_json()
+    
+    allCoords = []
+
+    for indx in range(len(path)):
+
+        allCoords.append(coords[path[indx]])
+    
+    return jsonify({'coords': allCoords})
+
 
 @app.route('/temp', methods=['POST'])
 def temp():
