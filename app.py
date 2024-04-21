@@ -8,11 +8,11 @@ app = Flask(__name__)
 graphs = [None, None, None, None, None]
 
 @app.before_request
-def initializeGraph():
+def initialize_graph():
 
     # https://stackoverflow.com/questions/73570041/flask-deprecated-before-first-request-how-to-update
     # Essentially we just want to run this once when the app is created so that we do not have to continously read through 100k+ data points
-    app.before_request_funcs[None].remove(initializeGraph)
+    app.before_request_funcs[None].remove(initialize_graph)
 
     global graphs
     
@@ -58,7 +58,7 @@ def get_data():
         
         else:
             
-            curPath, curCost = graphs[year - 2019].bellmanFord(origin, destination)
+            curPath, curCost, curEdges = graphs[year - 2019].bellmanFord(origin, destination)
 
         if curCost < lowestCost:
 
@@ -68,3 +68,15 @@ def get_data():
             allEdges = curEdges
 
     return jsonify({'cost': lowestCost,'bestPath': bestPath, 'bestYear': bestYear, 'allEdges': allEdges})
+
+@app.route('/temp', methods=['POST'])
+def temp():
+
+    allCities = set()
+
+    for i in range(5):
+        allCities.update(graphs[i].uniqueCities())
+
+    allCitiesList = list(allCities)
+
+    return jsonify({"allCities": allCitiesList})

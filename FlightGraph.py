@@ -13,6 +13,16 @@ class FlightGraph:
     def getNumberOfCities(self):
 
         return len(self.adj)
+    
+    def uniqueCities(self):
+
+        cities = set()
+
+        for city in self.adj:
+
+            cities.add(city)
+        
+        return cities
 
     def addFlight(self, fromEdge, toEdge, flightCost):
         
@@ -38,7 +48,7 @@ class FlightGraph:
         allEdges = []
 
         if source not in self.adj:
-            return None, 1000000000
+            return None, 1000000000, []
 
         pq = PriorityQueue()
 
@@ -80,18 +90,20 @@ class FlightGraph:
         path = []
         curVertex = destination
         while self.predecessor[curVertex] != -1:
-            path.append(curVertex)
+            path.append([curVertex, self.distances[curVertex]])
             curVertex = self.predecessor[curVertex]
         
-        path.append(source)
+        path.append([source, 0])
         path.reverse()
 
         return path, self.distances[destination], allEdges
 
     def bellmanFord(self, source, destination):
 
+        allEdges = []
+
         if source not in self.adj:
-            return None, 1000000000
+            return None, 1000000000, []
 
         self.distances[source] = 0
         updates = False
@@ -116,6 +128,8 @@ class FlightGraph:
                         self.distances[neighborName] = self.distances[vertex] + flightCost
                         self.predecessor[neighborName] = vertex
 
+                        allEdges.append((vertex, neighborName))
+
                         updates = True
 
             if updates == False:
@@ -124,13 +138,13 @@ class FlightGraph:
         path = []
         curVertex = destination
         while self.predecessor[curVertex] != -1:
-            path.append(curVertex)
+            path.append([curVertex, self.distances[curVertex]])
             curVertex = self.predecessor[curVertex]
         
-        path.append(source)
+        path.append([source, 0])
         path.reverse()
 
-        return path, self.distances[destination]
+        return path, self.distances[destination], allEdges
 
         
 
