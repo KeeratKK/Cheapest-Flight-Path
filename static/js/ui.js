@@ -76,7 +76,49 @@ window.addEventListener('click', (e) => {
     }
 });
 
+// Removes the previous text in the output menu.
+async function removeOutputMenu(response) {
+    const flightList = document.getElementsByClassName("flight-list")[0];
 
+    for(let i = flightList.children.length - 1; i >= 1; i--) {
+        flightList.removeChild(flightList.children[i]);
+    }
+
+    const finalCost = document.getElementById('cost-output-text');
+    finalCost.textContent = 'Calculating...';
+}
+
+// Displays the text based off the returned best path (resopnse) variable.
 async function displayOutputMenu(response) {
+    const flightList = document.getElementsByClassName("flight-list")[0];
 
+    let prevCost = 0;
+
+    // For each path in the bestPath, add a li to the flight-list ul.
+    for(let i = 0; i < response.bestPath.length; i++) {
+        let currCost = response.bestPath[i][1] - prevCost;
+        prevCost = response.bestPath[i][1];
+
+        const li = document.createElement('li');
+
+        const cityName = document.createElement('div');
+        const cityNameText = document.createElement('p');
+        cityNameText.textContent = response.bestPath[i][0];
+        cityName.classList.add('flight-list-city-name');
+        cityName.appendChild(cityNameText);
+        li.appendChild(cityName);
+
+        const flightPrice = document.createElement('div');
+        const flightPriceText = document.createElement('p');
+        flightPriceText.textContent = currCost;
+        flightPrice.classList.add('flight-list-price');
+        flightPrice.appendChild(flightPriceText);
+        li.appendChild(flightPrice);
+
+        flightList.appendChild(li);
+    }
+
+    // Display the final cost.
+    const finalCost = document.getElementById('cost-output-text');
+    finalCost.textContent = '$' + response.bestPath[response.bestPath.length - 1][1];
 }
