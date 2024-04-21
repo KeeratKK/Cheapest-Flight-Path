@@ -2,6 +2,13 @@
 // API, and generates a URL from which to get city coordinates, in [longitude, latitude].
 
 let drawnLines = [];
+let allCityCoords = [];
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("hi");
+});
+
 
 async function getCoords(cityName) {
     // Find the webpage correlated to the city name given.
@@ -74,6 +81,8 @@ let mapbox = new mapboxgl.Map({
     zoom: 3.25
 })
 
+
+
 // Draws the lines after the MapBox has loaded.
 // mapbox.on('load', () => {
 //     drawLine(mapbox, 'Idaho Falls', 'Tampa');
@@ -100,11 +109,47 @@ async function displayPath(algoEdges, path) {
     }
     
     for(let i = 1; i < path.length; i++) {
-        const destination = path[i].split(',')[0].trim();
-        const source = path[i - 1].split(',')[0].trim();
+        const destination = path[i][0].split(',')[0].trim();
+        const source = path[i - 1][0].split(',')[0].trim();
 
         drawLine(mapbox, source, destination);
     }
 
 
 }
+
+
+// This function is to initially create csv for coordinates of each city
+// Helps because we dont need to repeatedly get coordiantes of city then
+
+// async function createCSV(allCities) {
+
+//     let rows = [];
+
+//     for(let i = 0; i < allCities.length; i++) {
+//         const cityName = allCities[i];
+//         const coords = await getCoords(cityName);
+
+//         coords.unshift(cityName);
+
+//         rows.push(coords);
+//     }
+
+//     // https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side?page=1&tab=scoredesc#tab-top
+//     // Explains how to convert data into csv in JS
+
+//     let csvContent = "data:text/csv;charset=utf-8,";
+
+//     rows.forEach(function(rowArray) {
+//         let row = rowArray.join(",");
+//         csvContent += row + "\r\n";
+//     });
+
+//     let encodedUri = encodeURI(csvContent);
+//     let link = document.createElement("a");
+//     link.setAttribute("href", encodedUri);
+//     link.setAttribute("download", "City_Coordinates.csv");
+//     document.body.appendChild(link);
+//     link.click();
+
+// }

@@ -97,12 +97,34 @@
                 </div>
             </div>
         </form>
+        
+        <!-- <form id="temp">
+            <input type="text">
+            <button type="submit"></button> 
+        </form> -->
 
         <!--
             Uses ajax to get the data from the form and sends it to python function to calculate cheapest flight cost/path
             It then returns that data and calls a dispalyPath function to display the actual path on the map
         -->
         <script>
+            // $(document).ready(function() {
+
+            //     $('#temp').submit(function(event) {
+            //         event.preventDefault();
+
+            //         $.ajax({
+            //             type:'POST',
+            //             url: '/temp',
+            //             data: $('#temp').serialize(),
+            //             success: function(response) {
+            //                 createCSV(response.allCities);
+            //             }
+            //         });
+            //     });
+
+            // });
+
             $(document).ready(function() {
     
                 $('form').submit(function(event) {
