@@ -1,5 +1,6 @@
 // The getCoords() function takes in the parameter of a city name. This city name is manipulated with the MapBox
 // API, and generates a URL from which to get city coordinates, in [longitude, latitude].
+/*
 
 let drawnLines = [];
 
@@ -108,3 +109,4 @@ async function displayPath(algoEdges, path) {
 
 
 }
+*/

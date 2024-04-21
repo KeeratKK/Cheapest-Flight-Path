@@ -15,8 +15,8 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 700px;
-    height: 500px;
+    width: 750px;
+    height: 516px;
     /*set a max width and min width with the @ stuff*/
 }
 
@@ -55,9 +55,17 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     height: 60px;
     width: 250px;
+}
+
+.location-input {
+    margin-bottom: 4px;
+}
+
+.years-input {
+    margin-bottom: 12px;
 }
 
 .origin-searchbar,
@@ -79,9 +87,19 @@ main {
     font-weight: bold;
 }
 
-.years-text-container {
+.years-text-container,
+.algorithm-text-container {
     width: 250px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
 
+.year-text,
+.algorithm-text {
+    font-size: 16px;
+    color: rgb(207, 208, 209);
 }
 
 .years-dropdown-container {
@@ -89,8 +107,93 @@ main {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 250px;
+}
+
+.year-dropdown {
+    width: 80px;
+}
+
+.algorithm-dropdown {
     width: 200px;
 }
+
+.year-dropdown,
+.algorithm-dropdown {
+    background-color: white;
+    height: 24px;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: background-color 0.3s,
+    width 0.3s;
+}
+
+.year-dropdown:hover {
+    width: 130px;
+}
+
+.year-dropdown:focus {
+    width: 130px;
+}
+
+.algorithm-dropdown:hover {
+    width: 250px;
+}
+
+.algorithm-dropdown:focus {
+    width: 250px;
+}
+
+.year-dropdown:focus,
+.algorithm-dropdown:focus {
+    background-color: lightskyblue;
+    color: black;
+    font-weight: bold;
+    outline: none;
+}
+
+.year-rectangle {
+    height: 2px;
+    width: 20px;
+    background-color: rgb(207, 208, 209);
+    border-radius: 1px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.algorithm-input {
+    margin-bottom: 12px;
+}
+
+.calculate-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 30px;
+}
+
+.calculate-button {
+    font-size: 16px;
+    background-color: white;
+    width: 100px;
+    height: 34px;
+    border-radius: 17px;
+    border: none;
+    transition: background-color 0.3s,
+    width 0.3s;
+}
+
+.calculate-button:hover {
+    background-color: lightskyblue;
+    width: 200px;
+}
+
+.calculate-button:active {
+    background-color: rgb(59, 175, 247);
+    width: 200px;
+}
+
 
 
 
