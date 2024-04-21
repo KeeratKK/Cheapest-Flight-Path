@@ -79,6 +79,8 @@ class FlightGraph:
                 flightCost = neighbors[1]
                 neighborName = neighbors[0]
 
+                # allEdges.append((shortestCity, neighborName))
+
                 if self.distances[shortestCity] + flightCost < self.distances[neighborName]:
                     self.distances[neighborName] = self.distances[shortestCity] + flightCost
                     self.predecessor[neighborName] = shortestCity
