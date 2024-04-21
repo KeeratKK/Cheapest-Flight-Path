@@ -77,4 +77,6 @@ window.addEventListener('click', (e) => {
 });
 
 
+async function displayOutputMenu(response) {
 
+}
