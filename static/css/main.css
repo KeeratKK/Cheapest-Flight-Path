@@ -47,7 +47,7 @@ main {
 }
 
 .menu-input {
-    height: 280px;
+    height: 260px;
 }
 
 .location-input,
@@ -89,7 +89,9 @@ main {
 }
 
 .years-text-container,
-.algorithm-text-container {
+.algorithm-text-container,
+.time-text-container,
+.cost-text-container {
     width: 250px;
     height: 40px;
     display: flex;
@@ -98,7 +100,9 @@ main {
 }
 
 .year-text,
-.algorithm-text {
+.algorithm-text,
+.cost-text,
+.time-text {
     font-size: 16px;
     color: rgb(207, 208, 209);
 }
@@ -225,6 +229,70 @@ main {
 #destination-suggestions li:hover {
     background-color: lightskyblue;
     cursor: pointer;
+}
+
+.menu-output {
+    height: 200px;
+}
+
+.flight-info-output {
+    width: 250px;
+    height: 80px;
+}
+
+.flight-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    width: 250px;
+    height: 80px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.flight-list li {
+    display: grid;
+    grid-template-columns: 175px 1fr;
+    height: 30px;
+    border-bottom: solid black 1px;
+}
+
+.flight-list li div {
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.flight-list-city-name {
+    border-right: solid black 1px;
+}
+
+.flight-list li div p {
+    color: black;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.time-container {
+    margin-bottom: 8px;
+}
+
+.cost-output,
+.time-output {
+    background-color: white;
+    width: 100px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 17px;
+}
+
+.cost-output p,
+.time-output p {
+    color: black;
+    font-size: 16px;
 }
 
 
