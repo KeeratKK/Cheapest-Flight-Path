@@ -203,6 +203,15 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function invalidValues() {
+    return document.getElementById('originSearchbar').value === '' ||
+        document.getElementById('destinationSearchbar').value === '' ||
+        document.getElementById('firstYearDropDown').value === '-1' ||
+        document.getElementById('secondYearDropDown').value === '-1' ||
+        document.getElementById('algorithmDropDown').value === '-1' ||
+        parseInt(document.getElementById('firstYearDropDown').value) > parseInt(document.getElementById('secondYearDropDown').value);
+}
+
 
 // This function is to initially create csv for coordinates of each city
 // Helps because we dont need to repeatedly get coordiantes of city then

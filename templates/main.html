@@ -158,19 +158,26 @@
 
             $(document).ready(function() {
     
-                $('form').submit(function(event) {
+                $('form').submit(async function(event) {
                     event.preventDefault();
-    
-                    $.ajax({
-                        type: 'POST',
-                        url: '/get_data',
-                        data: $('form').serialize(),
-                        success: async function(response) {
-                            const startTime = await resetOutputMenu(response);
-                            await displayPath(response.allEdges, response.bestPath);
-                            await displayOutputMenu(response, startTime);
-                        }
-                    });
+                    
+                    const invalid = await invalidValues();
+
+                    if(invalid) {
+                        alert("Please make sure all fields have a valid value.");
+                    }
+                    else {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/get_data',
+                            data: $('form').serialize(),
+                            success: async function(response) {
+                                const startTime = await resetOutputMenu(response);
+                                await displayPath(response.allEdges, response.bestPath);
+                                await displayOutputMenu(response, startTime);
+                            }
+                        });
+                    }
                 });
     
             });
