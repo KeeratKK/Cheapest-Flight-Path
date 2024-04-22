@@ -80,6 +80,19 @@ window.addEventListener('click', (e) => {
 async function resetOutputMenu(response) {
     const flightList = document.getElementsByClassName("flight-list")[0];
 
+    if(response.bestPath.length === 0 || Math.abs(response.cost - 10000000) <= 0.00001) {
+        const timer = document.getElementById('time-output-text');
+        timer.textContent = '';
+
+        const finalCost = document.getElementById('cost-output-text');
+        finalCost.textContent = 'No Flights';
+
+        const finalYear = document.getElementById('final-year-output-text');
+        finalYear.textContent = '';
+
+        return 0;
+    }
+
     for(let i = flightList.children.length - 1; i >= 1; i--) {
         flightList.removeChild(flightList.children[i]);
     }
@@ -98,6 +111,11 @@ async function resetOutputMenu(response) {
 
 // Displays the text based off the returned best path (resopnse) variable and the time the graph took to display.
 async function displayOutputMenu(response, time) {
+
+    if(response.bestPath.length === 0 || Math.abs(response.cost - 10000000) <= 0.00001) {
+        return;
+    }
+
     const finalTime = Date.now() - time;
 
     const flightList = document.getElementsByClassName("flight-list")[0];
@@ -130,7 +148,7 @@ async function displayOutputMenu(response, time) {
 
     // Display the final cost.
     const finalCost = document.getElementById('cost-output-text');
-    finalCost.textContent = '$' + response.bestPath[response.bestPath.length - 1][1].toFixed(2);
+    finalCost.textContent = '$' + (response.cost).toFixed(2);
 
     // Display the best year for lowest cost.
     const finalYear = document.getElementById('final-year-output-text');
