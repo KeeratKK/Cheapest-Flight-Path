@@ -120,7 +120,7 @@ async function displayOutputMenu(response, time) {
 
         const flightPrice = document.createElement('div');
         const flightPriceText = document.createElement('p');
-        flightPriceText.textContent = currCost;
+        flightPriceText.textContent = currCost.toFixed(2);
         flightPrice.classList.add('flight-list-price');
         flightPrice.appendChild(flightPriceText);
         li.appendChild(flightPrice);
@@ -130,7 +130,7 @@ async function displayOutputMenu(response, time) {
 
     // Display the final cost.
     const finalCost = document.getElementById('cost-output-text');
-    finalCost.textContent = '$' + response.bestPath[response.bestPath.length - 1][1];
+    finalCost.textContent = '$' + response.bestPath[response.bestPath.length - 1][1].toFixed(2);
 
     // Display the best year for lowest cost.
     const finalYear = document.getElementById('final-year-output-text');
