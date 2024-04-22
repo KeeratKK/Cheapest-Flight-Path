@@ -1,3 +1,4 @@
+// Stores ids of lines that are currently drawn on the map
 let drawnLines = [];
 
 // The getCoords() function takes in the parameter of a city name. This city name is manipulated with the MapBox
@@ -37,11 +38,11 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
     }
 
     let color = '#FFAC1C';
-
+    // Color it purple for final cheapest path
     if(finalPath === true) {
         color = '#7F00FF';
     }
-    
+
     // Adds the source to the MapBox through the GeoJSON.
     mapObj.addSource(`${origin}_to_${destination}`, {
         type: 'geojson',
@@ -53,8 +54,8 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
             }
         }
     });
-    
-    
+
+
     // Adds the source as a layer, and styles the line.
     mapObj.addLayer({
         id: `${origin}_to_${destination}`,
@@ -76,8 +77,8 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
     // }
 
     drawnLines.push(`${origin}_to_${destination}`);
-    
-}   
+
+}
 
 // Draws the lines after the MapBox has loaded.
 // mapbox.on('load', () => {
@@ -94,11 +95,13 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
 
 async function displayPath(algoEdges, path) {
 
-    console.log(drawnLines.length);
-
+    // console.log(drawnLines.length);
+    // If there are lines that have already been drawn on the map, delete them
     while(drawnLines.length > 0) {
+        // Get line ID
         const lineID = drawnLines.pop();
 
+        // Make sure we havent already deleted it yet
         if(mapbox.getLayer(lineID)) {
             mapbox.removeLayer(lineID);
         }
@@ -109,22 +112,28 @@ async function displayPath(algoEdges, path) {
 
     }
 
+    // AlgoEdges holds the relaxed edges
+    // If there are none, there must not have been a flight connecting the two so we just return
     if(algoEdges.length === 0) return;
 
+    // This will hold every individual city that was part of some edge that was relaxed
     let newPath = [];
 
-    console.log(algoEdges.length);
-    console.log(algoEdges[0]);
+    //console.log(algoEdges.length);
+    //console.log(algoEdges[0]);
 
+    // Loop through relaxed edges, break each edge into city and add to newPath
     for(let i = 0; i < algoEdges.length; i++) {
         newPath.push(algoEdges[i][0]);
         newPath.push(algoEdges[i][1]);
     }
 
-    console.log(newPath.length);
+    // console.log(newPath.length);
 
+    // This will store coords of each city in newPath
     let coords = [];
 
+    // Need to call get_coords from server to get the coordinates
     await $.ajax({
         type: 'POST',
         url: '/get_coords',
@@ -134,10 +143,11 @@ async function displayPath(algoEdges, path) {
         success: function(data) {
             coords = data.coords;
         }
-    }); 
+    });
 
-    console.log(coords);
-    
+    // console.log(coords);
+
+    // Loop through every edge and draw a line between them
     for(let i = 1; i < newPath.length; i++) {
         const destination = newPath[i];
         const source = newPath[i-1];
@@ -148,23 +158,27 @@ async function displayPath(algoEdges, path) {
 
         // await mapbox.removeLayer(`${source}_to_${destination}`);
         // await mapbox.removeSource(`${source}_to_${destination}`);
-        
+
         drawLine(mapbox, source, destination, coords[i-1], coords[i], false);
-        
+
+        // After we initially draw, reduce line width so we emphasize the edge currently being shown
         mapbox.setPaintProperty(`${source}_to_${destination}`, 'line-color', '#808080');
         mapbox.setPaintProperty(`${source}_to_${destination}`, 'line-width', 0.2);
 
+        // wait 10 ms
         await sleep(10);
-        
+
     }
 
-    let finalPath = [];
-    let curPathDrawn = [];
+    let finalPath = []; // Will hold the city names in the cheapest path
+    let curPathDrawn = []; // Will hold the ids of lines that represent cheapest path
 
+    // Add city names
     for(let i  = 0; i < path.length; i++) {
         finalPath.push(path[i][0]);
     }
 
+    // Loop through each edge in cheapest path and display its
     for(let i = 1; i < finalPath.length; i++) {
         const destination = finalPath[i];
         const source = finalPath[i - 1];
@@ -175,18 +189,22 @@ async function displayPath(algoEdges, path) {
         curPathDrawn.push(`${source}_to_${destination}`);
     }
 
+    // Open a popup whenever you hover over a line in the final path
     const popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false
     });
-    
+
+    // Loop through lines in the cheapest path
     for(let i = 0; i < curPathDrawn.length; i++) {
 
+        // Get cost of that individual flight alone
         let curFlightCost = path[i+1][1] - path[i][1];
 
+        // Allow popup whenever hovering and remove popup immediately after mouse leaves line
         mapbox.on('mouseenter', curPathDrawn[i], (e) => {
             mapbox.getCanvas().style.cursor = 'pointer';
-    
+
             popup.setLngLat(e.lngLat).setHTML(curPathDrawn[i] + '<br /><br />Cost: ' + curFlightCost.toFixed(2)).addTo(mapbox);
         });
         mapbox.on('mouseleave', curPathDrawn[i], (e) => {
