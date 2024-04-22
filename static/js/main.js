@@ -94,8 +94,6 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
 
 async function displayPath(algoEdges, path) {
 
-    if(algoEdges.length === 0) return;
-
     console.log(drawnLines.length);
 
     while(drawnLines.length > 0) {
@@ -110,6 +108,8 @@ async function displayPath(algoEdges, path) {
         }
 
     }
+
+    if(algoEdges.length === 0) return;
 
     let newPath = [];
 
@@ -187,7 +187,7 @@ async function displayPath(algoEdges, path) {
         mapbox.on('mouseenter', curPathDrawn[i], (e) => {
             mapbox.getCanvas().style.cursor = 'pointer';
     
-            popup.setLngLat(e.lngLat).setHTML(curPathDrawn[i] + '<br /><br />Cost: ' + curFlightCost).addTo(mapbox);
+            popup.setLngLat(e.lngLat).setHTML(curPathDrawn[i] + '<br /><br />Cost: ' + curFlightCost.toFixed(2)).addTo(mapbox);
         });
         mapbox.on('mouseleave', curPathDrawn[i], (e) => {
             mapbox.getCanvas().style.cursor = '';
