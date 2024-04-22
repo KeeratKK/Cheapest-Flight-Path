@@ -91,7 +91,8 @@ main {
 .years-text-container,
 .algorithm-text-container,
 .time-text-container,
-.cost-text-container {
+.cost-text-container,
+.final-year-text-container {
     width: 250px;
     height: 40px;
     display: flex;
@@ -102,7 +103,8 @@ main {
 .year-text,
 .algorithm-text,
 .cost-text,
-.time-text {
+.time-text,
+.final-year-text {
     font-size: 16px;
     color: rgb(207, 208, 209);
 }
@@ -274,12 +276,21 @@ main {
     padding: 0;
 }
 
-.time-container {
+.time-year-container {
+    display: flex;
+    width: 250px;
+    grid-template-columns: 125px 1fr;
     margin-bottom: 8px;
 }
 
+.time-container,
+.final-year-container {
+    width: 125px;
+}
+
 .cost-output,
-.time-output {
+.time-output,
+.final-year-output {
     background-color: white;
     width: 100px;
     height: 24px;
@@ -290,7 +301,8 @@ main {
 }
 
 .cost-output p,
-.time-output p {
+.time-output p,
+.final-year-output p{
     color: black;
     font-size: 16px;
 }

@@ -97,16 +97,26 @@
                             </li>
                         </ul>
                     </div>
-                    <!--
-                    <div class="time-container">
-                        <div class="time-text-container">
-                            <p class="time-text">Calculation Time:</p>
+                    <div class="time-year-container">
+                        <div class="time-container">
+                            <div class="time-text-container">
+                                <p class="time-text">Runtime:</p>
+                            </div>
+                            <div class="time-output">
+                                <p id="time-output-text"></p>
+                            </div>
                         </div>
-                        <div class="time-output">
-                            <p id="time-output-text"></p>
+                        <div class="final-year-container">
+                            <div class="final-year-container">
+                                <div class="final-year-text-container">
+                                    <p class="final-year-text">Year:</p>
+                                </div>
+                                <div class="final-year-output">
+                                    <p id="final-year-output-text"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    -->
                     <div class="cost-container">
                         <div class="cost-text-container">
                             <p class="cost-text">Final Cost:</p>
@@ -156,9 +166,9 @@
                         url: '/get_data',
                         data: $('form').serialize(),
                         success: async function(response) {
-                            await removeOutputMenu(response);
+                            const startTime = await resetOutputMenu(response);
                             await displayPath(response.allEdges, response.bestPath);
-                            await displayOutputMenu(response);
+                            await displayOutputMenu(response, startTime);
                         }
                     });
                 });
