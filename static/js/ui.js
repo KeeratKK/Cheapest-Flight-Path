@@ -80,6 +80,7 @@ window.addEventListener('click', (e) => {
 async function resetOutputMenu(response) {
     const flightList = document.getElementsByClassName("flight-list")[0];
 
+    // If no path exists, display this to user.
     if(response.bestPath.length === 0 || Math.abs(response.cost - 10000000) <= 0.00001) {
         const timer = document.getElementById('time-output-text');
         timer.textContent = '';
@@ -112,6 +113,7 @@ async function resetOutputMenu(response) {
 // Displays the text based off the returned best path (resopnse) variable and the time the graph took to display.
 async function displayOutputMenu(response, time) {
 
+    // If no path exists, return.
     if(response.bestPath.length === 0 || Math.abs(response.cost - 10000000) <= 0.00001) {
         return;
     }

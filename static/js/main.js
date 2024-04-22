@@ -1,8 +1,9 @@
-// The getCoords() function takes in the parameter of a city name. This city name is manipulated with the MapBox
-// API, and generates a URL from which to get city coordinates, in [longitude, latitude].
-
 let drawnLines = [];
 
+// The getCoords() function takes in the parameter of a city name. This city name is manipulated with the MapBox
+// API, and generates a URL from which to get city coordinates, in [longitude, latitude].
+// The function is currently not being used, since it was used to put all coordinates in the CSV.
+/*
 async function getCoords(cityName) {
     // Find the webpage correlated to the city name given.
     const cityURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${cityName}.json?access_token=pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA`;
@@ -20,6 +21,7 @@ async function getCoords(cityName) {
 
     return coordinates;
 }
+*/
 
 // Given a MapBox object, origin name, and destination name, constructs a line. Calls getCoords on the given
 // city names, and then adds a source to the MapBox through the GeoJSON MapBox API with the coordinates, and
