@@ -97,20 +97,22 @@
                             </li>
                         </ul>
                     </div>
+                    <!--
                     <div class="time-container">
                         <div class="time-text-container">
                             <p class="time-text">Calculation Time:</p>
                         </div>
                         <div class="time-output">
-                            4.3 s
+                            <p id="time-output-text"></p>
                         </div>
                     </div>
+                    -->
                     <div class="cost-container">
                         <div class="cost-text-container">
                             <p class="cost-text">Final Cost:</p>
                         </div>
                         <div class="cost-output">
-                            <p>$43.43</p>
+                            <p id="cost-output-text"></p>
                         </div>
                     </div>
                 </div>
@@ -153,9 +155,10 @@
                         type: 'POST',
                         url: '/get_data',
                         data: $('form').serialize(),
-                        success: function(response) {
-                            displayPath(response.allEdges, response.bestPath);
-
+                        success: async function(response) {
+                            await removeOutputMenu(response);
+                            await displayPath(response.allEdges, response.bestPath);
+                            await displayOutputMenu(response);
                         }
                     });
                 });
