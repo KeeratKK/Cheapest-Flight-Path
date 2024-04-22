@@ -79,7 +79,11 @@ window.addEventListener('click', (e) => {
 // Removes the previous text in the output menu and begin the timer for the final time display.
 async function resetOutputMenu(response) {
     const flightList = document.getElementsByClassName("flight-list")[0];
-
+    
+    for(let i = flightList.children.length - 1; i >= 1; i--) {
+        flightList.removeChild(flightList.children[i]);
+    }
+    
     // If no path exists, display this to user.
     if(response.bestPath.length === 0 || Math.abs(response.cost - 10000000) <= 0.00001) {
         const timer = document.getElementById('time-output-text');
@@ -94,9 +98,7 @@ async function resetOutputMenu(response) {
         return 0;
     }
 
-    for(let i = flightList.children.length - 1; i >= 1; i--) {
-        flightList.removeChild(flightList.children[i]);
-    }
+
 
     const timer = document.getElementById('time-output-text');
     timer.textContent = 'Timing...';
