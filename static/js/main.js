@@ -79,18 +79,6 @@ async function drawLine(mapObj, origin, destination, sourceCoords, finalCoords, 
     
 }   
 
-
-// Creates the MapBox in the div with id 'mapbox'.
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA';
-let mapbox = new mapboxgl.Map({
-    container: 'mapbox',
-    style: 'mapbox://styles/adamyc/clv2yh9ic01sl01p6525f1yvk',
-    center: [-97.327, 38.181],
-    zoom: 3.25
-})
-
-
-
 // Draws the lines after the MapBox has loaded.
 // mapbox.on('load', () => {
 //     drawLine(mapbox, 'Idaho Falls', 'Tampa');
@@ -106,6 +94,8 @@ let mapbox = new mapboxgl.Map({
 
 async function displayPath(algoEdges, path) {
 
+    if(algoEdges.length === 0) return;
+
     console.log(drawnLines.length);
 
     while(drawnLines.length > 0) {
@@ -118,8 +108,6 @@ async function displayPath(algoEdges, path) {
         if(mapbox.getSource(lineID)) {
             mapbox.removeSource(lineID);
         }
-        // mapbox.removeLayer(lineID);
-        // mapbox.removeSource(lineID);
 
     }
 
@@ -171,22 +159,11 @@ async function displayPath(algoEdges, path) {
     }
 
     let finalPath = [];
-    let finalCoords = [];
+    let curPathDrawn = [];
 
     for(let i  = 0; i < path.length; i++) {
         finalPath.push(path[i][0]);
     }
-
-    await $.ajax({
-        type: 'POST',
-        url: '/get_coords',
-        data: JSON.stringify(finalPath),
-        contentType: "application/json;charset=utf-8",
-        datatype: "json",
-        success: function(data) {
-            finalCoords = data.coords;
-        }
-    });
 
     for(let i = 1; i < finalPath.length; i++) {
         const destination = finalPath[i];
@@ -194,7 +171,30 @@ async function displayPath(algoEdges, path) {
 
         mapbox.setPaintProperty(`${source}_to_${destination}`, 'line-color', '#7F00FF');
         mapbox.setPaintProperty(`${source}_to_${destination}`, 'line-width', 5.0);
+
+        curPathDrawn.push(`${source}_to_${destination}`);
     }
+
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+    
+    for(let i = 0; i < curPathDrawn.length; i++) {
+
+        let curFlightCost = path[i+1][1] - path[i][1];
+
+        mapbox.on('mouseenter', curPathDrawn[i], (e) => {
+            mapbox.getCanvas().style.cursor = 'pointer';
+    
+            popup.setLngLat(e.lngLat).setHTML(curPathDrawn[i] + '<br /><br />Cost: ' + curFlightCost).addTo(mapbox);
+        });
+        mapbox.on('mouseleave', curPathDrawn[i], (e) => {
+            mapbox.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+    }
+
 
 }
 
@@ -202,6 +202,16 @@ async function displayPath(algoEdges, path) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+async function invalidValues() {
+    return document.getElementById('originSearchbar').value === '' ||
+        document.getElementById('destinationSearchbar').value === '' ||
+        document.getElementById('firstYearDropDown').value === '-1' ||
+        document.getElementById('secondYearDropDown').value === '-1' ||
+        document.getElementById('algorithmDropDown').value === '-1' ||
+        parseInt(document.getElementById('firstYearDropDown').value) > parseInt(document.getElementById('secondYearDropDown').value);
+}
+
 
 // This function is to initially create csv for coordinates of each city
 // Helps because we dont need to repeatedly get coordiantes of city then
@@ -237,3 +247,13 @@ function sleep(ms) {
 //     link.click();
 
 // }
+
+
+// Creates the MapBox in the div with id 'mapbox'.
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWRhbXljIiwiYSI6ImNsdjJ5Y2dmOTBvNngyanFtcDhxMm85dzMifQ.FLHD9CZrgnBjBQMXCZlVlA';
+let mapbox = new mapboxgl.Map({
+    container: 'mapbox',
+    style: 'mapbox://styles/adamyc/clv2yh9ic01sl01p6525f1yvk',
+    center: [-97.327, 38.181],
+    zoom: 3.25
+});
