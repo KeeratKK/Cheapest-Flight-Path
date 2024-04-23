@@ -128,10 +128,10 @@
                 </div>
             </div>
         </form>
-        
+
         <!-- <form id="temp">
             <input type="text">
-            <button type="submit"></button> 
+            <button type="submit"></button>
         </form> -->
 
         <!--
@@ -157,15 +157,19 @@
             // });
 
             $(document).ready(function() {
-    
+
+                // When the form is submitted...
                 $('form').submit(async function(event) {
                     event.preventDefault();
 
+                    // Check to see if any part of the form is empty first
                     const invalid = await invalidValues();
 
+                    // If empty, alert the user
                     if(invalid) {
                         alert("Please make sure all fields have a valid value.");
                     }
+                    // Otherwise, call get_data from the flask server and then call displayPath and displayOutputMenu
                     else {
                         $.ajax({
                             type: 'POST',
@@ -179,7 +183,7 @@
                         });
                     }
                 });
-    
+
             });
         </script>
 
