@@ -1,6 +1,6 @@
 # SkySaver
 ### Cheapest Flight Path Finder
-#### Created by Adam Cheng, Keerat Kholi, and Allan Zhang
+#### Created by Adam Cheng, Keerat Kohli, and Allan Zhang
 
 <br>
 
