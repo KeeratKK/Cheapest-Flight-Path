@@ -35,3 +35,9 @@ likewise is able to accommodate for a larger range of years.
     webpage is active).
 11. To close the program, head back into the terminal and type "Ctrl + C".
 12. If you wish to run the program later on, repeat steps 8-11.
+
+
+
+https://github.com/user-attachments/assets/638728b6-c836-4514-98af-94ea4f2745f0
+
+
